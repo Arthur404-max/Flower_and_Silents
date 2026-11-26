@@ -160,18 +160,18 @@ export function CartDrawer() {
             {quote.data && !quote.error && (
               <div className="drawer-footer">
                 {freeDeliveryRemaining > 0 && config.data && (
-                  <p className="delivery-hint"><Truck size={17} aria-hidden="true" /> До бесплатной демо-доставки — {formatMoney(freeDeliveryRemaining)}</p>
+                  <p className="delivery-hint"><Truck size={17} aria-hidden="true" /> До бесплатной доставки — {formatMoney(freeDeliveryRemaining)}</p>
                 )}
                 <dl className="totals">
                   <div><dt>Букеты</dt><dd>{formatMoney(quote.data.subtotal)}</dd></div>
-                  <div><dt>Демо-доставка</dt><dd>{quote.data.deliveryFee === 0 ? 'Бесплатно' : formatMoney(quote.data.deliveryFee)}</dd></div>
+                  <div><dt>Доставка</dt><dd>{quote.data.deliveryFee === 0 ? 'Бесплатно' : formatMoney(quote.data.deliveryFee)}</dd></div>
                   {quote.data.serviceFee > 0 && <div><dt>Сервисный сбор</dt><dd>{formatMoney(quote.data.serviceFee)}</dd></div>}
                   <div className="totals-final"><dt>Итого</dt><dd>{formatMoney(quote.data.total)}</dd></div>
                 </dl>
                 <Link to="/checkout" className="button button-primary button-full" onClick={closeDrawer}>
-                  Оформить демо-заказ <ArrowRight size={18} aria-hidden="true" />
+                  Оформить заказ <ArrowRight size={18} aria-hidden="true" />
                 </Link>
-                <p className="drawer-demo-note">Стоимость окончательно пересчитает сервер. Реальная оплата не производится.</p>
+                <p className="drawer-demo-note">Стоимость пересчитывается перед оформлением.</p>
               </div>
             )}
           </>

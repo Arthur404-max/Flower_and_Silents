@@ -119,7 +119,7 @@ export function ProductEditor({
   };
 
   return (
-    <AdminDialog title={product ? 'Редактировать товар' : 'Новый товар'} description="Цены вводятся и отправляются в API в рублях." onClose={onClose} wide>
+    <AdminDialog title={product ? 'Редактировать товар' : 'Новый товар'} description="Цены вводятся в рублях." onClose={onClose} wide>
       <form className="admin-editor-form" onSubmit={submit}>
         <div className="admin-editor-scroll">
           <div className="admin-product-editor-grid">

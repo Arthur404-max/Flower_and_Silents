@@ -35,7 +35,7 @@ export function AdminDashboardPage() {
 
   return (
     <div className="admin-page">
-      <header className="admin-page-header"><div><p className="eyebrow">Обзор</p><h1>Здравствуйте, {session.data?.user.name}</h1><p>Короткая сводка демо-заказов и быстрые переходы.</p></div><Link to="/admin/products" className="button button-primary"><Plus size={17} aria-hidden="true" /> Управлять товарами</Link></header>
+      <header className="admin-page-header"><div><p className="eyebrow">Обзор</p><h1>Здравствуйте, {session.data?.user.name}</h1><p>Короткая сводка заказов и быстрые переходы.</p></div><Link to="/admin/products" className="button button-primary"><Plus size={17} aria-hidden="true" /> Управлять товарами</Link></header>
       <div className="admin-metrics">
         <MetricCard icon={ClipboardList} label="Всего заказов" value={recent.data?.total ?? null} to="/admin/orders" />
         <MetricCard icon={CreditCard} label="Ожидают оплаты" value={totalFor('AWAITING_PAYMENT')} to="/admin/orders?status=AWAITING_PAYMENT" tone="warning" />
@@ -44,15 +44,15 @@ export function AdminDashboardPage() {
       </div>
       <div className="admin-dashboard-grid">
         <section className="admin-panel admin-recent-panel">
-          <div className="admin-panel-heading"><div><h2>Последние заказы</h2><p>Свежие обращения из демо-витрины</p></div><Link to="/admin/orders" className="text-link">Все заказы <ArrowRight size={16} /></Link></div>
-          {recent.isLoading ? <div className="admin-loading-block" role="status">Загружаем заказы…</div> : recent.error ? <ErrorState error={recent.error} onRetry={() => void recent.refetch()} /> : recent.data?.items.length ? <AdminOrderTable orders={recent.data.items} /> : <div className="admin-empty-compact">Демо-заказов пока нет.</div>}
+          <div className="admin-panel-heading"><div><h2>Последние заказы</h2><p>Последние поступившие заказы</p></div><Link to="/admin/orders" className="text-link">Все заказы <ArrowRight size={16} /></Link></div>
+          {recent.isLoading ? <div className="admin-loading-block" role="status">Загружаем заказы…</div> : recent.error ? <ErrorState error={recent.error} onRetry={() => void recent.refetch()} /> : recent.data?.items.length ? <AdminOrderTable orders={recent.data.items} /> : <div className="admin-empty-compact">Заказов пока нет.</div>}
         </section>
         <aside className="admin-panel admin-quick-panel">
           <div className="admin-panel-heading"><div><h2>Быстрые действия</h2><p>Основные разделы панели</p></div></div>
           <Link to="/admin/products" className="admin-quick-link"><span><Package size={20} /></span><div><strong>Товары</strong><small>Создать, изменить или архивировать</small></div><ArrowRight size={17} /></Link>
           <Link to="/admin/categories" className="admin-quick-link"><span><Flower2 size={20} /></span><div><strong>Категории</strong><small>Порядок и названия разделов</small></div><ArrowRight size={17} /></Link>
-          <Link to="/admin/orders?status=AWAITING_PAYMENT" className="admin-quick-link"><span><CreditCard size={20} /></span><div><strong>Ожидают оплаты</strong><small>Проверить демо-заказы</small></div><ArrowRight size={17} /></Link>
-          <div className="admin-demo-note">Все операции затрагивают только демонстрационные данные. Покупательские токены доступа не отображаются.</div>
+          <Link to="/admin/orders?status=AWAITING_PAYMENT" className="admin-quick-link"><span><CreditCard size={20} /></span><div><strong>Ожидают оплаты</strong><small>Проверить заказы</small></div><ArrowRight size={17} /></Link>
+          <div className="admin-demo-note">Покупательские токены доступа не отображаются.</div>
         </aside>
       </div>
     </div>

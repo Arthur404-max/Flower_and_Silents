@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ArrowRight, Eye, EyeOff, FlaskConical, LoaderCircle, LockKeyhole } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Info, LoaderCircle, LockKeyhole } from 'lucide-react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../components/Logo';
 import { useAdminMe } from '../../hooks/useQueries';
@@ -46,11 +46,11 @@ export function AdminLoginPage() {
   return (
     <main className="admin-login-page">
       <section className="admin-login-card">
-        <div className="admin-login-brand"><Logo /><span>ЦветоТишина · демо</span></div>
+        <div className="admin-login-brand"><Logo /><span>ЦветоТишина</span></div>
         <p className="eyebrow">Панель управления</p>
         <h1>Спокойный вход<br /><em>в рабочую часть</em></h1>
-        <p className="admin-login-description">Управление демо-каталогом, категориями и заказами.</p>
-        <div className="admin-demo-warning"><FlaskConical size={21} aria-hidden="true" /><div><strong>Демонстрационный режим</strong><p>Используйте учётные данные из окружения проекта. Вход доступен только при запущенном API.</p></div></div>
+        <p className="admin-login-description">Управление каталогом, категориями и заказами.</p>
+        <div className="admin-demo-warning"><Info size={21} aria-hidden="true" /><div><strong>Доступ администратора</strong><p>Используйте выданные учётные данные.</p></div></div>
         <form onSubmit={submit} className="admin-login-form">
           <label className="form-field"><span className="form-field-label">Email</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="username" placeholder="admin@example.ru" required disabled={login.isPending} /></label>
           <label className="form-field"><span className="form-field-label">Пароль</span><span className="password-input"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" placeholder="Ваш пароль" aria-label="Пароль" required disabled={login.isPending} /><button type="button" className="icon-button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></span></label>

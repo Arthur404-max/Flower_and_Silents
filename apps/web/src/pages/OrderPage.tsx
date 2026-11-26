@@ -18,10 +18,10 @@ import { getOrderToken, saveOrderToken } from '../lib/orderTokens';
 import type { OrderView } from '../types';
 
 const paymentLabels: Record<OrderView['paymentStatus'], string> = {
-  PENDING: 'Ожидает демо-оплаты',
-  PAID: 'Оплачено демо',
-  FAILED: 'Демо-оплата не прошла',
-  REFUNDED: 'Демо-возврат',
+  PENDING: 'Ожидает оплаты',
+  PAID: 'Оплачено',
+  FAILED: 'Оплата не прошла',
+  REFUNDED: 'Возврат средств',
 };
 
 export function OrderPage() {
@@ -65,9 +65,9 @@ export function OrderPage() {
     onSuccess: ({ order: paidOrder }) => {
       queryClient.setQueryData(['order', number, token], { order: paidOrder });
       paymentKey.current = null;
-      showToast('Демо-оплата прошла. Статус заказа обновлён.', 'success');
+      showToast('Оплата прошла. Статус заказа обновлён.', 'success');
     },
-    onError: (error) => showToast(errorMessage(error, 'Не удалось провести демо-оплату.'), 'error'),
+    onError: (error) => showToast(errorMessage(error, 'Не удалось провести оплату.'), 'error'),
   });
 
   const pay = () => {
@@ -122,15 +122,15 @@ export function OrderPage() {
       <div className="container">
         <Link to="/" className="back-link"><ArrowLeft size={16} aria-hidden="true" /> На главную</Link>
         <div className="order-heading">
-          <div><p className="eyebrow">Демо-заказ {order.number}</p><h1>{order.status === 'DELIVERED' ? 'Букет у вас' : 'Ваш заказ'}</h1><p>Создан {formatDateTime(order.createdAt)}</p></div>
+          <div><p className="eyebrow">Заказ {order.number}</p><h1>{order.status === 'DELIVERED' ? 'Букет у вас' : 'Ваш заказ'}</h1><p>Создан {formatDateTime(order.createdAt)}</p></div>
           <div className="order-heading-actions"><StatusBadge status={order.status} /><button type="button" className="button button-secondary" onClick={() => void orderQuery.refetch()} disabled={orderQuery.isFetching}><RefreshCw size={17} className={orderQuery.isFetching ? 'spin' : ''} aria-hidden="true" /> Обновить</button></div>
         </div>
         <DemoNotice config={config.data} compact />
         {showPayment && (
           <div className="payment-banner">
             <span className="payment-banner-icon"><CreditCard size={26} aria-hidden="true" /></span>
-            <div><h2>{order.status === 'PAYMENT_FAILED' ? 'Повторите демо-оплату' : 'Осталась демо-оплата'}</h2><p>{order.status === 'PAYMENT_FAILED' ? 'Предыдущая демо-оплата не прошла. Можно попробовать ещё раз; реальные деньги не списываются.' : 'Нажмите кнопку, чтобы проверить сценарий оплаты. Реальные деньги не списываются.'}</p></div>
-            <button type="button" className="button button-primary" onClick={pay} disabled={paymentMutation.isPending}>{paymentMutation.isPending ? <><LoaderCircle size={18} className="spin" aria-hidden="true" /> Проверяем…</> : <>{order.status === 'PAYMENT_FAILED' ? 'Повторить демо-оплату' : 'Демо-оплата'} · {formatMoney(order.total)} <ArrowRight size={17} aria-hidden="true" /></>}</button>
+            <div><h2>{order.status === 'PAYMENT_FAILED' ? 'Повторите оплату' : 'Оплата заказа'}</h2><p>{order.status === 'PAYMENT_FAILED' ? 'Предыдущая оплата не прошла. Можно попробовать ещё раз.' : 'Проверьте детали и перейдите к подтверждению оплаты.'}</p></div>
+            <button type="button" className="button button-primary" onClick={pay} disabled={paymentMutation.isPending}>{paymentMutation.isPending ? <><LoaderCircle size={18} className="spin" aria-hidden="true" /> Проверяем…</> : <>{order.status === 'PAYMENT_FAILED' ? 'Повторить оплату' : 'Оплата заказа'} · {formatMoney(order.total)} <ArrowRight size={17} aria-hidden="true" /></>}</button>
           </div>
         )}
         {paymentMutation.error && <div className="form-error" role="alert">{errorMessage(paymentMutation.error)}</div>}
@@ -139,7 +139,7 @@ export function OrderPage() {
             <section className="surface-card order-card">
               <div className="card-heading"><div><p className="eyebrow">Движение заказа</p><h2>Статус и timeline</h2></div><span className="payment-label">{paymentLabels[order.paymentStatus]}</span></div>
               {order.status === 'CANCELLED' && <div className="order-status-message status-danger">Заказ отменён. Дальнейшие шаги не выполняются.</div>}
-              {order.status === 'PAYMENT_FAILED' && <div className="order-status-message status-warning">Демо-оплата не прошла. Вы можете повторить попытку.</div>}
+              {order.status === 'PAYMENT_FAILED' && <div className="order-status-message status-warning">Оплата не прошла. Вы можете повторить попытку.</div>}
               <OrderTimeline order={order} />
             </section>
             <section className="surface-card order-card">
@@ -162,11 +162,11 @@ export function OrderPage() {
                 <div><dt>Получатель</dt><dd>{order.customerName}</dd></div>
                 <div><dt>Телефон</dt><dd>{order.phone}</dd></div>
                 {order.email && <div><dt>Email</dt><dd>{order.email}</dd></div>}
-                <div><dt>Способ</dt><dd>{order.deliveryType === 'PICKUP' ? 'Самовывоз' : 'Демо-доставка'}</dd></div>
+                <div><dt>Способ</dt><dd>{order.deliveryType === 'PICKUP' ? 'Самовывоз' : 'Доставка'}</dd></div>
                 {order.address && <div><dt>Адрес</dt><dd>{order.address}</dd></div>}
                 <div><dt>Приборы</dt><dd>{order.utensils ? 'Нужны' : 'Не нужны'}</dd></div>
                 {order.comment && <div><dt>Комментарий</dt><dd>{order.comment}</dd></div>}
-                {order.paidAt && <div><dt>Демо-оплата</dt><dd>{formatDate(order.paidAt)}</dd></div>}
+                {order.paidAt && <div><dt>Дата оплаты</dt><dd>{formatDate(order.paidAt)}</dd></div>}
               </dl>
             </section>
             <section className="surface-card order-card">

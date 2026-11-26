@@ -42,7 +42,7 @@ export function AdminProductsPage() {
 
   return (
     <div className="admin-page">
-      <header className="admin-page-header"><div><p className="eyebrow">Каталог</p><h1>Товары</h1><p>Создание, редактирование, архивирование и восстановление демо-товаров.</p></div><button type="button" className="button button-primary" onClick={() => setEditing(null)} disabled={!categories.data?.length}><Plus size={17} /> Добавить товар</button></header>
+      <header className="admin-page-header"><div><p className="eyebrow">Каталог</p><h1>Товары</h1><p>Создание, редактирование, архивирование и восстановление товаров.</p></div><button type="button" className="button button-primary" onClick={() => setEditing(null)} disabled={!categories.data?.length}><Plus size={17} /> Добавить товар</button></header>
       <div className="admin-toolbar"><label className="admin-search"><Search size={18} aria-hidden="true" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Поиск по названию" aria-label="Поиск товаров" /></label><span>{products.data?.length ?? 0} товаров</span></div>
       {categories.error && <div className="form-error" role="alert">{errorMessage(categories.error, 'Не удалось загрузить категории.')}</div>}
       {products.isLoading ? <div className="admin-loading-block" role="status">Загружаем товары…</div> : products.error ? <ErrorState error={products.error} onRetry={() => void products.refetch()} /> : products.data?.length ? (
@@ -61,7 +61,7 @@ export function AdminProductsPage() {
             ))}</tbody>
           </table>
         </div>
-      ) : <EmptyState title={search ? 'Товары не найдены' : 'Каталог пока пуст'} description={search ? 'Измените поисковый запрос.' : 'Создайте первый демо-товар.'} action={<button type="button" className="button button-secondary" onClick={() => setEditing(null)}><Plus size={17} /> Добавить товар</button>} />}
+      ) : <EmptyState title={search ? 'Товары не найдены' : 'Каталог пока пуст'} description={search ? 'Измените поисковый запрос.' : 'Создайте первый товар.'} action={<button type="button" className="button button-secondary" onClick={() => setEditing(null)}><Plus size={17} /> Добавить товар</button>} />}
       {editing !== undefined && categories.data && <ProductEditor key={editing?.id ?? 'new'} product={editing} categories={categories.data} onClose={() => setEditing(undefined)} onSaved={saved} />}
     </div>
   );

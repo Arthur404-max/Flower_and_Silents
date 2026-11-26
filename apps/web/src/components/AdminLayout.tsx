@@ -36,7 +36,7 @@ export function AdminLayout() {
     <div className="admin-shell">
       <aside className={`admin-sidebar ${menuOpen ? 'admin-sidebar-open' : ''}`}>
         <div className="admin-sidebar-top"><Logo compact /><button type="button" className="icon-button admin-menu-close" onClick={() => setMenuOpen(false)} aria-label="Закрыть меню"><X size={20} /></button></div>
-        <div className="admin-workspace"><span className="demo-dot" /><div><strong>ЦветоТишина</strong><small>Демо-панель</small></div></div>
+        <div className="admin-workspace"><span className="demo-dot" /><div><strong>ЦветоТишина</strong><small>Панель управления</small></div></div>
         <nav className="admin-nav" aria-label="Навигация администратора">
           {navigation.map(({ to, label, icon: Icon, end }) => (
             <NavLink key={to} to={to} end={end} onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'admin-nav-link admin-nav-link-active' : 'admin-nav-link'}><Icon size={19} strokeWidth={1.7} aria-hidden="true" />{label}</NavLink>
@@ -50,7 +50,7 @@ export function AdminLayout() {
       </aside>
       {menuOpen && <button type="button" className="admin-sidebar-backdrop" onClick={() => setMenuOpen(false)} aria-label="Закрыть меню" />}
       <div className="admin-main">
-        <header className="admin-topbar"><button type="button" className="icon-button admin-menu-button" onClick={() => setMenuOpen(true)} aria-label="Открыть меню"><Menu size={22} /></button><span>Демонстрационная панель управления</span><Link to="/" className="text-link">Витрина <ArrowUpRight size={16} aria-hidden="true" /></Link></header>
+        <header className="admin-topbar"><button type="button" className="icon-button admin-menu-button" onClick={() => setMenuOpen(true)} aria-label="Открыть меню"><Menu size={22} /></button><span>Панель управления</span><Link to="/" className="text-link">Витрина <ArrowUpRight size={16} aria-hidden="true" /></Link></header>
         <div className="admin-content"><Outlet /></div>
       </div>
     </div>

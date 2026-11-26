@@ -39,7 +39,7 @@ const initialForm: CheckoutForm = {
 const PHONE_PATTERN = /^\+?[0-9\s()-]{10,20}$/;
 
 export function CheckoutPage() {
-  useDocumentTitle('Оформление демо-заказа');
+  useDocumentTitle('Оформление заказа');
   const { items, itemCount, clearCart } = useCart();
   const { showToast } = useToast();
   const config = useStoreConfig();
@@ -60,7 +60,7 @@ export function CheckoutPage() {
     onSuccess: ({ order, accessToken }) => {
       saveOrderToken(order.number, accessToken);
       clearCart();
-      showToast('Демо-заказ создан. Открываем страницу заказа.', 'success');
+      showToast('Заказ создан. Открываем страницу заказа.', 'success');
       navigate(`/order/${encodeURIComponent(order.number)}`, { replace: true });
     },
     onError: (error) => setFormError(errorMessage(error, 'Не удалось создать заказ.')),
@@ -86,11 +86,11 @@ export function CheckoutPage() {
       return;
     }
     if (form.deliveryType === 'DELIVERY' && !address) {
-      setFormError('Для демо-доставки укажите адрес.');
+      setFormError('Для доставки укажите адрес.');
       return;
     }
     if (!quote.data || quote.error) {
-      setFormError('Дождитесь серверного пересчёта корзины.');
+      setFormError('Дождитесь пересчёта корзины.');
       return;
     }
 
@@ -116,7 +116,7 @@ export function CheckoutPage() {
     return (
       <section className="section checkout-page">
         <div className="container">
-          <EmptyState title="Корзина пока пуста" description="Сначала выберите букет. После оформления демо-заказа корзина автоматически очистится." />
+          <EmptyState title="Корзина пока пуста" description="Сначала выберите букет. После оформления заказа корзина автоматически очистится." />
         </div>
       </section>
     );
@@ -126,7 +126,7 @@ export function CheckoutPage() {
     <section className="section checkout-page">
       <div className="container">
         <Link to="/catalog" className="back-link"><ArrowLeft size={16} aria-hidden="true" /> Продолжить выбор</Link>
-        <div className="checkout-heading"><p className="eyebrow">Последний шаг</p><h1>Оформление <em>демо-заказа</em></h1><p>Проверьте данные. Стоимость ниже рассчитана сервером для выбранного способа получения.</p></div>
+        <div className="checkout-heading"><p className="eyebrow">Последний шаг</p><h1>Оформление <em>заказа</em></h1><p>Проверьте данные. Стоимость ниже рассчитана для выбранного способа получения.</p></div>
         <div className="checkout-grid">
           <form className="checkout-form surface-card" onSubmit={submitOrder}>
             <fieldset className="form-section">
@@ -142,11 +142,11 @@ export function CheckoutPage() {
               <div className="delivery-options">
                 <label className={form.deliveryType === 'PICKUP' ? 'delivery-option delivery-option-active' : 'delivery-option'}>
                   <input type="radio" name="deliveryType" value="PICKUP" checked={form.deliveryType === 'PICKUP'} onChange={() => updateField('deliveryType', 'PICKUP')} />
-                  <Store size={23} aria-hidden="true" /><strong>Самовывоз</strong><span>Без демо-доставки</span>
+                  <Store size={23} aria-hidden="true" /><strong>Самовывоз</strong><span>Без доставки</span>
                 </label>
                 <label className={form.deliveryType === 'DELIVERY' ? 'delivery-option delivery-option-active' : 'delivery-option'}>
                   <input type="radio" name="deliveryType" value="DELIVERY" checked={form.deliveryType === 'DELIVERY'} onChange={() => updateField('deliveryType', 'DELIVERY')} />
-                  <MapPin size={23} aria-hidden="true" /><strong>Демо-доставка</strong><span>{config.data ? formatMoney(config.data.deliveryFee) : 'Тариф из настроек'}</span>
+                  <MapPin size={23} aria-hidden="true" /><strong>Доставка</strong><span>{config.data ? formatMoney(config.data.deliveryFee) : 'Тариф из настроек'}</span>
                 </label>
               </div>
               {form.deliveryType === 'DELIVERY' && <FormField label="Адрес доставки" required><input value={form.address} onChange={(event) => updateField('address', event.target.value)} autoComplete="street-address" placeholder="Город, улица, дом, квартира" required maxLength={300} /></FormField>}
@@ -155,20 +155,20 @@ export function CheckoutPage() {
             <fieldset className="form-section">
               <legend><span>03</span> Детали</legend>
               <FormField label="Комментарий" hint="Необязательно"><textarea value={form.comment} onChange={(event) => updateField('comment', event.target.value)} placeholder="Пожелания к букету или заказу" rows={4} maxLength={1000} /></FormField>
-              <label className="checkbox-row"><input type="checkbox" checked={form.utensils} onChange={(event) => updateField('utensils', event.target.checked)} /><span><strong>Нужны приборы</strong><small>Отметка будет сохранена в демо-заказе</small></span></label>
+              <label className="checkbox-row"><input type="checkbox" checked={form.utensils} onChange={(event) => updateField('utensils', event.target.checked)} /><span><strong>Нужны приборы</strong><small>Отметка будет сохранена в заказе</small></span></label>
             </fieldset>
             <DemoNotice compact />
             {formError && <div className="form-error" role="alert">{formError}</div>}
             <button type="submit" className="button button-primary button-large button-full" disabled={orderMutation.isPending || quote.isFetching || !quote.data}>
-              {orderMutation.isPending ? <><LoaderCircle className="spin" size={19} aria-hidden="true" /> Создаём демо-заказ…</> : <>Создать демо-заказ <ArrowRight size={19} aria-hidden="true" /></>}
+              {orderMutation.isPending ? <><LoaderCircle className="spin" size={19} aria-hidden="true" /> Создаём заказ…</> : <>Создать заказ <ArrowRight size={19} aria-hidden="true" /></>}
             </button>
-            <p className="secure-note"><LockKeyhole size={15} aria-hidden="true" /> Повторная отправка использует тот же Idempotency-Key. Реальная оплата не производится.</p>
+            <p className="secure-note"><LockKeyhole size={15} aria-hidden="true" /> Повторная отправка использует тот же Idempotency-Key.</p>
           </form>
 
           <aside className="checkout-summary surface-card" aria-label="Состав и стоимость заказа">
             <div className="summary-heading"><h2>Ваш заказ</h2><span>{itemCount}</span></div>
             {quote.isLoading ? (
-              <div className="summary-loading" role="status"><div className="skeleton skeleton-cart-item" /><div className="skeleton skeleton-cart-item" /><p>Сервер пересчитывает стоимость…</p></div>
+              <div className="summary-loading" role="status"><div className="skeleton skeleton-cart-item" /><div className="skeleton skeleton-cart-item" /><p>Пересчитываем стоимость…</p></div>
             ) : quote.error ? (
               <div className="summary-error" role="alert"><h3>Не удалось пересчитать заказ</h3><p>{errorMessage(quote.error)}</p><button type="button" className="button button-secondary" onClick={() => void quote.refetch()}>Повторить</button></div>
             ) : quote.data ? (
@@ -184,12 +184,12 @@ export function CheckoutPage() {
                 </div>
                 <dl className="totals">
                   <div><dt>Букеты</dt><dd>{formatMoney(quote.data.subtotal)}</dd></div>
-                  <div><dt>{form.deliveryType === 'PICKUP' ? 'Самовывоз' : 'Демо-доставка'}</dt><dd>{quote.data.deliveryFee === 0 ? 'Бесплатно' : formatMoney(quote.data.deliveryFee)}</dd></div>
+                  <div><dt>{form.deliveryType === 'PICKUP' ? 'Самовывоз' : 'Доставка'}</dt><dd>{quote.data.deliveryFee === 0 ? 'Бесплатно' : formatMoney(quote.data.deliveryFee)}</dd></div>
                   {quote.data.serviceFee > 0 && <div><dt>Сервисный сбор</dt><dd>{formatMoney(quote.data.serviceFee)}</dd></div>}
                   <div className="totals-final"><dt>Итого</dt><dd>{formatMoney(quote.data.total)}</dd></div>
                 </dl>
-                <div className="demo-payment-card"><CreditCard size={22} aria-hidden="true" /><div><strong>Явно демонстрационная оплата</strong><p>После создания заказа кнопка демо-оплаты будет на его странице. Деньги не списываются.</p></div></div>
-                <ul className="purchase-notes"><li><Check size={16} aria-hidden="true" /> Итог подтверждён сервером</li><li><ShoppingBag size={16} aria-hidden="true" /> Корзина очистится после создания</li><li><Utensils size={16} aria-hidden="true" /> Приборы: {form.utensils ? 'нужны' : 'не нужны'}</li></ul>
+                <div className="demo-payment-card"><CreditCard size={22} aria-hidden="true" /><div><strong>Оплата заказа</strong><p>Подтверждение оплаты будет доступно на странице созданного заказа.</p></div></div>
+                <ul className="purchase-notes"><li><Check size={16} aria-hidden="true" /> Итог подтверждён</li><li><ShoppingBag size={16} aria-hidden="true" /> Корзина очистится после создания</li><li><Utensils size={16} aria-hidden="true" /> Приборы: {form.utensils ? 'нужны' : 'не нужны'}</li></ul>
               </>
             ) : null}
           </aside>

@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '');
   const apiTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:3000';
   return {
+    base: process.env.VITE_BASE_PATH || env.VITE_BASE_PATH || '/',
     envDir: projectRoot,
     resolve: {
       alias: {

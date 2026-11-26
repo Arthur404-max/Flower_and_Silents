@@ -39,7 +39,7 @@ export function AdminOrdersPage() {
 
   return (
     <div className="admin-page">
-      <header className="admin-page-header"><div><p className="eyebrow">Демо-продажи</p><h1>Заказы</h1><p>Поиск, фильтр по статусу и история изменений.</p></div><span className="admin-total-pill">Всего: {orders.data?.pages[0]?.total ?? '—'}</span></header>
+      <header className="admin-page-header"><div><p className="eyebrow">Продажи</p><h1>Заказы</h1><p>Поиск, фильтр по статусу и история изменений.</p></div><span className="admin-total-pill">Всего: {orders.data?.pages[0]?.total ?? '—'}</span></header>
       <div className="admin-toolbar admin-orders-toolbar">
         <form className="admin-search" role="search" onSubmit={submit}><Search size={18} aria-hidden="true" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Номер, имя или телефон" aria-label="Поиск заказов" /><button type="submit" className="text-button">Найти</button></form>
         <label className="sort-control"><span className="sr-only">Статус заказа</span><select value={status} onChange={(event) => updateFilters(search, event.target.value)}><option value="">Все статусы</option>{ORDER_STATUSES.map((value) => <option key={value} value={value}>{ORDER_STATUS_LABELS[value]}</option>)}</select></label>
@@ -50,7 +50,7 @@ export function AdminOrdersPage() {
           {orders.hasNextPage && <div className="load-more-wrap"><button type="button" className="button button-secondary" onClick={() => void orders.fetchNextPage()} disabled={orders.isFetchingNextPage}>{orders.isFetchingNextPage ? 'Загружаем…' : 'Показать ещё'} <ArrowDown size={17} /></button></div>}
           {orders.error && <div className="inline-error" role="alert">Не удалось загрузить следующую страницу. <button type="button" onClick={() => void orders.refetch()}>Повторить</button></div>}
         </>
-      ) : <EmptyState title="Заказов не найдено" description="Измените поиск или статус. Новые демо-заказы появятся здесь автоматически." action={<button type="button" className="button button-secondary" onClick={() => { setSearch(''); updateFilters('', ''); }}>Сбросить фильтры</button>} />}
+      ) : <EmptyState title="Заказов не найдено" description="Измените поиск или статус. Новые заказы появятся здесь автоматически." action={<button type="button" className="button button-secondary" onClick={() => { setSearch(''); updateFilters('', ''); }}>Сбросить фильтры</button>} />}
     </div>
   );
 }

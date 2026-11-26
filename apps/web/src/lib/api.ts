@@ -17,7 +17,9 @@ import type {
   ProductView,
   StoreConfig,
 } from '../types';
+import { localRequest } from './localBackend';
 
+const LOCAL_BACKEND = import.meta.env.VITE_LOCAL_BACKEND === 'true';
 const API_BASE = '/api/v1';
 let csrfToken: string | null = null;
 let refreshPromise: Promise<AdminAuthResponse> | null = null;
@@ -94,6 +96,9 @@ async function parseResponse<T>(response: Response): Promise<T> {
 }
 
 async function sendRequest<T>(path: string, init: RequestInit): Promise<T> {
+  if (LOCAL_BACKEND) {
+    return parseResponse<T>(await localRequest(path, init));
+  }
   let response: Response;
   try {
     const headers = new Headers(init.headers);

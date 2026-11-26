@@ -34,8 +34,8 @@ export function StoreLayout() {
     <div className="storefront-shell">
       <a href="#main-content" className="skip-link">Перейти к содержимому</a>
       <div className="demo-strip">
-        <span><span className="demo-dot" /> Демонстрационный магазин</span>
-        <span className="demo-strip-detail">Оплата не списывает деньги</span>
+        <span><span className="demo-dot" /> Цветы с доставкой</span>
+        <span className="demo-strip-detail">Самовывоз и доставка</span>
       </div>
       <header className="site-header">
         <div className="container header-main">
@@ -61,9 +61,9 @@ export function StoreLayout() {
             {search && <button type="button" onClick={() => setSearch('')} aria-label="Очистить поиск"><X size={16} aria-hidden="true" /></button>}
           </form>
           <div className="header-actions">
-            <Link to="/catalog" className="delivery-pill" title={config.data?.address ?? 'Условия демо-доставки'}>
+            <Link to="/catalog" className="delivery-pill" title={config.data?.address ?? 'Условия доставки'}>
               <Truck size={18} aria-hidden="true" />
-              <span>Демо-доставка</span>
+              <span>Доставка</span>
             </Link>
             <Link to={itemCount > 0 ? '/checkout' : '/catalog'} className="button button-primary header-order">
               Заказать <ArrowRight size={17} aria-hidden="true" />
@@ -91,7 +91,7 @@ export function StoreLayout() {
           <div className="footer-brand">
             <Logo />
             <p>Цветы, после которых становится тише.</p>
-            <span className="footer-demo">Демо-проект · не является действующим магазином</span>
+            <span className="footer-demo">Букеты и цветочные композиции</span>
           </div>
           <div className="footer-links">
             <p className="footer-label">Прогуляться</p>
@@ -108,7 +108,7 @@ export function StoreLayout() {
         </div>
         <div className="container footer-bottom">
           <span>© {new Date().getFullYear()} ЦветоТишина</span>
-          <span>Спокойный интерфейс. Демонстрационные заказы.</span>
+          <span>Спокойный интерфейс. Внимание к деталям.</span>
         </div>
       </footer>
       <CartDrawer />

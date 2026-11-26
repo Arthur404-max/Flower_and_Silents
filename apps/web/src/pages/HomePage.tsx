@@ -20,7 +20,7 @@ const benefits = [
   {
     icon: WalletCards,
     title: 'Стоимость заранее',
-    text: 'Сервер пересчитывает корзину до создания демо-заказа.',
+    text: 'Стоимость пересчитывается до создания заказа.',
   },
   {
     icon: MessageCircle,
@@ -60,7 +60,7 @@ export function HomePage() {
               <Link to="/catalog" className="button button-primary button-large">Выбрать букет <ArrowRight size={19} aria-hidden="true" /></Link>
               <Link to="/how-it-works" className="button button-ghost button-large">Как это работает <ArrowDownRight size={18} aria-hidden="true" /></Link>
             </div>
-            <div className="hero-footnote"><Flower2 size={18} aria-hidden="true" /><span>Демо-каталог из реального API · без выдуманных отзывов</span></div>
+            <div className="hero-footnote"><Flower2 size={18} aria-hidden="true" /><span>Каталог с актуальными ценами и подробным составом</span></div>
           </div>
           <div className="hero-visual">
             <div className="hero-image-frame">
@@ -101,7 +101,7 @@ export function HomePage() {
               ))}
             </div>
           ) : (
-            <p className="muted-copy">Категории появятся после заполнения демо-каталога.</p>
+            <p className="muted-copy">Категории появятся после добавления в каталог.</p>
           )}
         </div>
       </section>
@@ -111,7 +111,7 @@ export function HomePage() {
           <SectionHeading
             eyebrow="Из каталога"
             title="Наш выбор"
-            description="Букеты и наборы, которые сейчас доступны в демо-витрине."
+            description="Букеты и наборы, которые сейчас доступны в каталоге."
             action={<Link to="/catalog" className="button button-secondary">Весь каталог <ArrowRight size={17} aria-hidden="true" /></Link>}
           />
           <ProductGrid products={products.data?.items ?? []} isLoading={products.isLoading} error={products.error} onRetry={() => void products.refetch()} />

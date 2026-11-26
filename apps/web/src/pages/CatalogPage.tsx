@@ -68,9 +68,9 @@ export function CatalogPage() {
     <div className="catalog-page">
       <section className="page-intro section-small">
         <div className="container">
-          <p className="eyebrow">Демо-каталог</p>
+          <p className="eyebrow">Каталог букетов</p>
           <h1>Найдите свой <em>букет</em></h1>
-          <p>Спокойный выбор по категориям, цене и настроению. Все карточки загружаются из API.</p>
+          <p>Спокойный выбор по категориям, цене и настроению. Состав и стоимость указаны в каждой карточке.</p>
         </div>
       </section>
       <section className="container catalog-content">

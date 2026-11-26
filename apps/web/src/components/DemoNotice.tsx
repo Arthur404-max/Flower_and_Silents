@@ -1,17 +1,17 @@
-import { FlaskConical, Info } from 'lucide-react';
+import { ClipboardCheck, Info } from 'lucide-react';
 import { formatMoney } from '@cvetotishina/shared';
 import type { StoreConfig } from '../types';
 
 export function DemoNotice({ config, compact = false }: { config?: StoreConfig; compact?: boolean }) {
   return (
-    <aside className={`demo-notice ${compact ? 'demo-notice-compact' : ''}`} aria-label="Демонстрационный режим">
-      <span className="demo-notice-icon"><FlaskConical size={compact ? 18 : 22} aria-hidden="true" /></span>
+    <aside className={`demo-notice ${compact ? 'demo-notice-compact' : ''}`} aria-label="Проверка заказа">
+      <span className="demo-notice-icon"><ClipboardCheck size={compact ? 18 : 22} aria-hidden="true" /></span>
       <div>
-        <strong>Это демонстрационная витрина</strong>
-        <p>Заказы и демо-оплата не создают реальных обязательств и не списывают деньги.</p>
+        <strong>Проверьте заказ перед оформлением</strong>
+        <p>Уточните состав, количество выбранных позиций и итоговую стоимость.</p>
         {config && !compact && (
           <span className="demo-delivery">
-            Демо-доставка: {formatMoney(config.deliveryFee)} · бесплатно от {formatMoney(config.freeDeliveryFrom)}
+            Доставка: {formatMoney(config.deliveryFee)} · бесплатно от {formatMoney(config.freeDeliveryFrom)}
           </span>
         )}
       </div>
