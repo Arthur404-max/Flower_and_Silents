@@ -132,22 +132,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
-      <section className="section home-how-section">
-        <div className="container home-how-card">
-          <div className="home-how-copy">
-            <p className="eyebrow">Как это работает</p>
-            <h2>От букета до демо-заказа — три понятных шага.</h2>
-            <p>Никаких скрытых условий: состав, итог и статус остаются перед вами.</p>
-            <Link to="/how-it-works" className="text-link">Подробнее о сценарии <ArrowRight size={18} aria-hidden="true" /></Link>
-          </div>
-          <ol className="home-steps">
-            <li><span>01</span><div><strong>Выберите букет</strong><p>Используйте категории, поиск и сортировку.</p></div></li>
-            <li><span>02</span><div><strong>Оформите демо-заказ</strong><p>Укажите самовывоз или демо-доставку.</p></div></li>
-            <li><span>03</span><div><strong>Откройте страницу заказа</strong><p>Проверьте состав, суммы и актуальный статус.</p></div></li>
-          </ol>
-        </div>
-      </section>
     </>
   );
 }
