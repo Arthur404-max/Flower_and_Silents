@@ -11,6 +11,7 @@
 
 ```text
 apps/web              витрина и /admin
+apps/web/src/lib      серверный клиент и локальный backend для Pages
 apps/api              публичный API и admin API
 apps/worker           outbox, BullMQ, retry/DLQ, очистка заказов
 packages/shared       статусы, общие типы и форматирование денег
@@ -22,6 +23,18 @@ tests/e2e             API и браузерные сценарии
 ```
 
 API — модульный монолит с явными границами `Catalog`, `Auth`, `Orders`, `Admin`, `Common`. Worker — независимый процесс. Витрина не знает Prisma, worker не вызывает API синхронно.
+
+## GitHub Pages
+
+Публичная сборка использует `.github/workflows/pages.yml` и статический фронтенд. В этом режиме:
+
+- `VITE_LOCAL_BACKEND=true` включает backend в браузере вместо `fetch`;
+- `VITE_BASE_PATH=/Flower_and_Silents/` задаёт путь ресурсов репозитория;
+- при `VITE_LOCAL_BACKEND=true` включается `HashRouter`, который поддерживает каталог, товар, заказ и админку без серверного fallback; серверный режим сохраняет `BrowserRouter`;
+- каталог, заказы, админ-сессия и изменения хранятся в `localStorage`/`sessionStorage`;
+- серверный API, PostgreSQL, Redis и worker в Pages-сборке не участвуют.
+
+Начальный вход администратора: `admin@cvetotishina.local` / `CvetoTishinaLocal2026!`. Для локальной проверки Pages-сборки используйте `VITE_BASE_PATH=/`.
 
 ## Локальная разработка
 
@@ -80,7 +93,9 @@ Seed использует `upsert` и не перезаписывает суще
 | `ADMIN_EMAIL` | Почта первого администратора |
 | `ADMIN_PASSWORD` | Пароль первого администратора, минимум 12 символов |
 | `UPLOAD_DIR` | Каталог загруженных изображений |
-| `DEMO_MODE` | Показывает демо-режим в витрине |
+| `DEMO_MODE` | Совместимость серверной витрины; в Pages-сборке не используется |
+| `VITE_LOCAL_BACKEND` | `true` включает локальный backend в браузере |
+| `VITE_BASE_PATH` | Base path статических ресурсов Vite |
 | `COOKIE_SECURE` | `true` только за HTTPS; для локального HTTP — `false` |
 | `GRAFANA_ADMIN_USER` / `GRAFANA_ADMIN_PASSWORD` | Доступ к Grafana |
 
@@ -160,13 +175,22 @@ Readiness API требует PostgreSQL, но сохраняет готовно�
 
 `npm run test:api` — Playwright request-тесты против работающего API: каталог, идемпотентность, остатки, токен заказа, демо-оплата, CSRF, optimistic locking, валидация и файлы.
 
-`npm run test:e2e` — браузерные сценарии витрины, checkout и админки. Перед запуском установите браузер:
+`npm run test:e2e` — браузерные сценарии серверной витрины, checkout и админки. `npm run test:pages` — сценарии статической Pages-версии. Перед запуском установите браузер:
 
 ```bash
 npx playwright install chromium
 ```
 
 API-тесты можно направить на другой адрес через `E2E_BASE_URL`. Учётные данные тестового администратора: `TEST_ADMIN_EMAIL`, `TEST_ADMIN_PASSWORD`.
+
+Для статической Pages-версии:
+
+```bash
+npm run build -w @cvetotishina/shared
+VITE_LOCAL_BACKEND=true npm run build -w @cvetotishina/web
+VITE_LOCAL_BACKEND=true npm run preview -w @cvetotishina/web -- --port 4173
+E2E_BASE_URL=http://127.0.0.1:4173 npm run test:pages
+```
 
 ## Docker
 
@@ -193,12 +217,14 @@ docker compose logs -f api worker
 - при остановленном worker заказ создаётся, а после запуска outbox-событие получает `PUBLISHED` и создаёт демо-уведомление;
 - Docker Compose поднимает все сервисы здоровыми; API работает в двух репликах;
 - Playwright против Docker/Nginx — 7/7; при остановке одной API-реплики 10/10 запросов проходят через вторую;
-- Prometheus targets и health Grafana находятся в состоянии `up`.
+- Prometheus targets и health Grafana находятся в состоянии `up`;
+- Pages-сборка с `VITE_LOCAL_BACKEND=true` и base path `/Flower_and_Silents/` собирается без ошибок;
+- `npm run test:pages` — 2/2 сценария на корневом пути и пути репозитория; запросов к `/api` нет, изображения загружаются.
 
-## Известные ограничения демо
+## Ограничения
 
+- Pages хранит данные только в браузере и не заменяет серверную базу;
 - настоящие платежи, доставка и уведомления не подключены;
 - контакты и юридические страницы отсутствуют;
 - Compose на одном хосте не даёт HA для PostgreSQL и Redis;
-- нагрузочная проверка на целевом железе и реальные SLA не выполнены;
-- фото и каталог демонстрационные.
+- нагрузочная проверка на целевом железе и реальные SLA не выполнены.
