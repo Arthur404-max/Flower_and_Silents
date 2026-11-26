@@ -1,0 +1,13 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.data
+test-results
+playwright-report
+blob-report
+coverage
+.env
+.git
+uploads/*
+!uploads/.gitkeep

@@ -1,0 +1,38 @@
+{
+  "name": "cvetotishina",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tests"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api,worker -c cyan,magenta,yellow \"npm:dev -w @cvetotishina/web\" \"npm:dev -w @cvetotishina/api\" \"npm:dev -w @cvetotishina/worker\"",
+    "build": "npm run build -w @cvetotishina/shared && npm run build -w @cvetotishina/api && npm run build -w @cvetotishina/worker && npm run build -w @cvetotishina/web",
+    "test": "node --require ts-node/register --test apps/api/src/common/domain.spec.ts apps/api/src/common/circuit-breaker.spec.ts apps/api/src/common/slug.spec.ts apps/api/src/auth/token.service.spec.ts apps/api/src/admin/upload.service.spec.ts",
+    "test:e2e": "playwright test",
+    "test:api": "playwright test tests/e2e/api.spec.ts",
+    "db:generate": "npm run db:generate -w @cvetotishina/api",
+    "db:migrate": "npm run db:migrate -w @cvetotishina/api",
+    "db:seed": "npm run db:seed -w @cvetotishina/api",
+    "docker:up": "docker compose up --build -d --wait",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f --tail=100"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "concurrently": "^9.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "@prisma/config": {
+      "deepmerge-ts": "8.0.2",
+      "effect": "3.22.5"
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
