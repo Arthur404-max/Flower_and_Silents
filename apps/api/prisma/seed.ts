@@ -2,11 +2,14 @@ import { resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import * as argon2 from 'argon2';
-import { buildProductSearchText } from '../src/common/search';
 
-dotenv.config({ path: resolve(__dirname, '../../../.env') });
+dotenv.config({ path: resolve(process.cwd(), '../../.env') });
 
 const prisma = new PrismaClient();
+
+function buildProductSearchText(name: string, description: string, composition: string): string {
+  return `${name} ${description} ${composition}`.toLocaleLowerCase('ru-RU').replace(/\s+/g, ' ').trim();
+}
 
 const categories = [
   { name: 'Букеты', slug: 'bouquets', sortOrder: 10 },

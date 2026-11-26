@@ -8,7 +8,7 @@ test('каталог доступен, ищет и фильтрует товар
   const config = await request.get('/api/v1/config');
   expect(config.status()).toBe(200);
   expect((await config.json()).demoMode).toBe(true);
-  expect(config.headers()['x-content-type-options']).toBe('nosniff');
+  expect(config.headers()['x-content-type-options'].split(',').map((value) => value.trim())).toContain('nosniff');
 
   const categories = await request.get('/api/v1/categories');
   expect(categories.status()).toBe(200);

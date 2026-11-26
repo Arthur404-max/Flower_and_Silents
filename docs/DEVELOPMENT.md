@@ -181,7 +181,7 @@ docker compose logs -f api worker
 
 Сервисы: `migrate`, `api` ×2, `worker`, `web`, `nginx`, `postgres`, `redis`, `prometheus`, `grafana`. Nginx слушает 8080, Prometheus 9090, Grafana 3002. Том `uploads` общий для API и Nginx.
 
-Образы API/worker устанавливают только соответствующие workspaces. API runtime сохраняет Prisma CLI и seed-зависимости, потому что одноразовый `migrate` применяет миграции и seed.
+Образы API/worker устанавливают только соответствующие workspaces. Runtime копирует проверенные зависимости из build-этапа, поэтому не выполняет повторную сетевую установку. API runtime сохраняет Prisma CLI и seed-зависимости, потому что одноразовый `migrate` применяет миграции и seed. Внутренний Nginx витрины использует SPA fallback для `/admin`, `/catalog`, `/product` и `/order`.
 
 ## Результаты текущей проверки
 
@@ -191,7 +191,9 @@ docker compose logs -f api worker
 - Playwright — 7/7 сценариев: API, витрина, checkout, демо-оплата, админка и мобильная корзина;
 - при остановленном Redis каталог читается из PostgreSQL, readiness API остаётся успешным, создание заказа и демо-оплата работают;
 - при остановленном worker заказ создаётся, а после запуска outbox-событие получает `PUBLISHED` и создаёт демо-уведомление;
-- `docker compose config` проходит; сам Docker Engine на машине разработчика не запускался по решению пользователя из-за ошибки служебного WSL-диска.
+- Docker Compose поднимает все сервисы здоровыми; API работает в двух репликах;
+- Playwright против Docker/Nginx — 7/7; при остановке одной API-реплики 10/10 запросов проходят через вторую;
+- Prometheus targets и health Grafana находятся в состоянии `up`.
 
 ## Известные ограничения демо
 
