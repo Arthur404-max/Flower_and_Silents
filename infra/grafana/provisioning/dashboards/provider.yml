@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: ЦветоТишина
+    folder: ЦветоТишина
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards
