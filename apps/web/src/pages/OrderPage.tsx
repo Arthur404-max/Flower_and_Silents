@@ -137,7 +137,7 @@ export function OrderPage() {
         <div className="order-grid">
           <div className="order-main">
             <section className="surface-card order-card">
-              <div className="card-heading"><div><p className="eyebrow">Движение заказа</p><h2>Статус и timeline</h2></div><span className="payment-label">{paymentLabels[order.paymentStatus]}</span></div>
+              <div className="card-heading"><div><p className="eyebrow">Движение заказа</p><h2>Статус и история</h2></div><span className="payment-label">{paymentLabels[order.paymentStatus]}</span></div>
               {order.status === 'CANCELLED' && <div className="order-status-message status-danger">Заказ отменён. Дальнейшие шаги не выполняются.</div>}
               {order.status === 'PAYMENT_FAILED' && <div className="order-status-message status-warning">Оплата не прошла. Вы можете повторить попытку.</div>}
               <OrderTimeline order={order} />
@@ -164,7 +164,7 @@ export function OrderPage() {
                 {order.email && <div><dt>Email</dt><dd>{order.email}</dd></div>}
                 <div><dt>Способ</dt><dd>{order.deliveryType === 'PICKUP' ? 'Самовывоз' : 'Доставка'}</dd></div>
                 {order.address && <div><dt>Адрес</dt><dd>{order.address}</dd></div>}
-                <div><dt>Приборы</dt><dd>{order.utensils ? 'Нужны' : 'Не нужны'}</dd></div>
+                <div><dt>Открытка</dt><dd>{order.utensils ? 'Добавим к букету' : 'Не нужна'}</dd></div>
                 {order.comment && <div><dt>Комментарий</dt><dd>{order.comment}</dd></div>}
                 {order.paidAt && <div><dt>Дата оплаты</dt><dd>{formatDate(order.paidAt)}</dd></div>}
               </dl>

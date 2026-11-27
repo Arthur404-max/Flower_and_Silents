@@ -53,7 +53,6 @@ export function ProductPage() {
               <div className="product-detail-visual">
                 <SmartImage src={product.imageUrl} alt={product.name} loading="eager" />
                 {product.badge && <span className="product-badge product-badge-large">{product.badge}</span>}
-                <span className="product-photo-note"><Flower2 size={17} aria-hidden="true" /> Карточка букета</span>
               </div>
               <div className="product-detail-info">
                 <p className="eyebrow">{product.category.name}</p>

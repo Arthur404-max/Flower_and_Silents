@@ -88,7 +88,7 @@ const products: SeedProduct[] = [
   { category: 'dried', name: 'Сохранить момент', slug: 'sohranit-moment', description: 'Сухоцветы с естественной фактурой для интерьера и долгой памяти.', composition: 'Сухоцветы, лента, упаковка', size: 'Высота около 50 см', price: 219000, oldPrice: null, imageUrl: '/images/dried-flowers.jpg', badge: null, stock: 15 },
   { category: 'gifts', name: 'Коробка заботы', slug: 'korobka-zaboty', description: 'Готовый подарочный набор с цветами для случая, когда хочется больше, чем букет.', composition: 'Цветы, подарочная коробка, открытка', size: 'Размер коробки 20 × 20 см', price: 429000, oldPrice: 499000, imageUrl: '/images/gift-box.jpg', badge: 'Готовый подарок', stock: 10 },
   { category: 'bouquets', name: 'Светлый день', slug: 'svetlyy-den', description: 'Свежий микс для дружеских встреч, благодарности и маленьких праздников.', composition: 'Сезонные цветы, зелень, упаковка', size: 'Высота около 45 см', price: 329000, oldPrice: null, imageUrl: '/images/seasonal.jpg', badge: null, stock: 20 },
-  { category: 'peonies', name: 'Пудровый бриз', slug: 'pudrovyy-briz', description: 'Нежная композиция в спокойных оттенках для личных и семейных событий.', composition: 'Пионовидные розы, зелень, упаковка', size: 'Высота около 48 см', price: 499000, oldPrice: null, imageUrl: '/images/peonies.jpg', badge: null, stock: 7 },
+  { category: 'peonies', name: 'Пудровый бриз', slug: 'pudrovyy-briz', description: 'Нежная композиция в спокойных оттенках для личных и семейных событий.', composition: 'Пионовидные розы, астильба, зелень, упаковка', size: 'Высота около 48 см', price: 499000, oldPrice: null, imageUrl: '/images/powder.jpg', badge: null, stock: 7 },
 ];
 
 export function normalizeSearchText(value: string): string {

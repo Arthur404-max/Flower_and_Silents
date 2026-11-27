@@ -6,6 +6,9 @@ import App from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './context/ToastContext';
+import '@fontsource-variable/cormorant';
+import '@fontsource-variable/cormorant/wght-italic.css';
+import '@fontsource-variable/manrope';
 import './styles.css';
 
 const Router = import.meta.env.VITE_LOCAL_BACKEND === 'true' ? HashRouter : BrowserRouter;

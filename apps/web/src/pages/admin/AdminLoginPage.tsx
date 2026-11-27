@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Eye, EyeOff, Info, LoaderCircle, LockKeyhole } from 'lucide-react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../components/Logo';
 import { useAdminMe } from '../../hooks/useQueries';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
@@ -46,7 +46,7 @@ export function AdminLoginPage() {
   return (
     <main className="admin-login-page">
       <section className="admin-login-card">
-        <div className="admin-login-brand"><Logo /><span>ЦветоТишина</span></div>
+        <div className="admin-login-brand"><Logo /><Link to="/" className="text-link">На витрину</Link></div>
         <p className="eyebrow">Панель управления</p>
         <h1>Спокойный вход<br /><em>в рабочую часть</em></h1>
         <p className="admin-login-description">Управление каталогом, категориями и заказами.</p>
@@ -59,7 +59,7 @@ export function AdminLoginPage() {
         </form>
         <p className="admin-login-footnote"><LockKeyhole size={14} aria-hidden="true" /> Сессия хранится в HttpOnly cookie. CSRF-токен не показывается в интерфейсе.</p>
       </section>
-      <div className="admin-login-art" aria-hidden="true"><span>Flower2</span><div>Цветы<br />и тишина</div></div>
+      <div className="admin-login-art" aria-hidden="true"><span>ЦветоТишина</span><div>Цветы<br />и тишина</div></div>
     </main>
   );
 }

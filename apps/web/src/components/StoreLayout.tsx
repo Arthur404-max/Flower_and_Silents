@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
-import { ArrowRight, LockKeyhole, MapPin, Menu, Search, ShoppingBag, Truck, X } from 'lucide-react';
+import { formatMoney } from '@cvetotishina/shared';
+import { ArrowRight, LockKeyhole, MapPin, Menu, Phone, Search, ShoppingBag, X } from 'lucide-react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useStoreConfig } from '../hooks/useQueries';
@@ -30,19 +31,24 @@ export function StoreLayout() {
     navigate(query ? `/catalog?q=${encodeURIComponent(query)}` : '/catalog');
   };
 
+  const freeDeliveryLabel = config.data
+    ? `Бесплатная доставка от ${formatMoney(config.data.freeDeliveryFrom)}`
+    : 'Бережная доставка букетов';
+
   return (
     <div className="storefront-shell">
       <a href="#main-content" className="skip-link">Перейти к содержимому</a>
-      <div className="demo-strip">
-        <span><span className="demo-dot" /> Цветы с доставкой</span>
-        <span className="demo-strip-detail">Самовывоз и доставка</span>
+      <div className="utility-strip">
+        <div className="container utility-strip-inner">
+          <span>{freeDeliveryLabel}</span>
+          <span className="utility-strip-sep" aria-hidden="true">·</span>
+          <span className="utility-strip-detail">Самовывоз и курьерская доставка ежедневно</span>
+        </div>
       </div>
       <header className="site-header">
         <div className="container header-main">
           <div className="brand-lockup">
             <Logo />
-            <span className="brand-divider" />
-            <span className="brand-name">{config.data?.storeName || 'ЦветоТишина'}</span>
           </div>
           <nav className={`main-nav ${menuOpen ? 'main-nav-open' : ''}`} aria-label="Основная навигация">
             <NavLink to="/" end>Главная</NavLink>
@@ -50,37 +56,56 @@ export function StoreLayout() {
             <NavLink to="/how-it-works">Как это работает</NavLink>
           </nav>
           <form className="header-search" role="search" onSubmit={submitSearch}>
-            <Search size={18} aria-hidden="true" />
+            <Search size={16} aria-hidden="true" />
             <input
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Найти букет"
+              placeholder="Найти букет…"
               aria-label="Поиск по каталогу"
             />
-            {search && <button type="button" onClick={() => setSearch('')} aria-label="Очистить поиск"><X size={16} aria-hidden="true" /></button>}
+            {search && (
+              <button type="button" onClick={() => setSearch('')} aria-label="Очистить поиск">
+                <X size={15} aria-hidden="true" />
+              </button>
+            )}
           </form>
           <div className="header-actions">
-            <Link to="/catalog" className="delivery-pill" title={config.data?.address ?? 'Условия доставки'}>
-              <Truck size={18} aria-hidden="true" />
-              <span>Доставка</span>
-            </Link>
             <Link to={itemCount > 0 ? '/checkout' : '/catalog'} className="button button-primary header-order">
-              Заказать <ArrowRight size={17} aria-hidden="true" />
+              Заказать <ArrowRight size={16} aria-hidden="true" />
             </Link>
-            <button type="button" className="cart-button" onClick={openDrawer} aria-label={`Открыть корзину, товаров: ${itemCount}`}>
-              <ShoppingBag size={21} aria-hidden="true" />
+            <button
+              type="button"
+              className="cart-button"
+              onClick={openDrawer}
+              aria-label={`Открыть корзину, товаров: ${itemCount}`}
+            >
+              <ShoppingBag size={19} strokeWidth={1.7} aria-hidden="true" />
               {itemCount > 0 && <span>{itemCount > 99 ? '99+' : itemCount}</span>}
             </button>
-            <button type="button" className="menu-button icon-button" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'} aria-expanded={menuOpen}>
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            <button
+              type="button"
+              className="menu-button icon-button"
+              onClick={() => setMenuOpen((value) => !value)}
+              aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={21} /> : <Menu size={21} />}
             </button>
           </div>
         </div>
         <form className="container mobile-search" role="search" onSubmit={submitSearch}>
-          <Search size={18} aria-hidden="true" />
-          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Найти букет" aria-label="Поиск по каталогу" />
-          <button type="submit" className="icon-button" aria-label="Найти"><ArrowRight size={18} /></button>
+          <Search size={17} aria-hidden="true" />
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Найти букет…"
+            aria-label="Поиск по каталогу"
+          />
+          <button type="submit" className="icon-button" aria-label="Найти">
+            <ArrowRight size={17} />
+          </button>
         </form>
       </header>
       <main id="main-content">
@@ -90,25 +115,37 @@ export function StoreLayout() {
         <div className="container footer-top">
           <div className="footer-brand">
             <Logo />
-            <p>Цветы, после которых становится тише.</p>
-            <span className="footer-demo">Букеты и цветочные композиции</span>
+            <p className="footer-tagline">Цветы, после которых становится тише.</p>
+            <span className="footer-note">Авторская флористическая мастерская. Собираем букеты вручную из сезонных цветов.</span>
           </div>
           <div className="footer-links">
-            <p className="footer-label">Прогуляться</p>
+            <p className="footer-label">Мастерская</p>
             <Link to="/catalog">Все букеты</Link>
             <Link to="/how-it-works">Как это работает</Link>
             <Link to="/checkout">Оформление заказа</Link>
           </div>
           <div className="footer-contacts">
             <p className="footer-label">Контакты</p>
-            {config.data?.phone ? <a href={`tel:${config.data.phone}`}>{config.data.phone}</a> : <span>Контакты будут добавлены</span>}
-            {config.data?.address ? <span><MapPin size={15} aria-hidden="true" /> {config.data.address}</span> : <span>Адрес также появится здесь</span>}
-            <Link to="/admin/login" className="admin-link"><LockKeyhole size={14} aria-hidden="true" /> Вход для администратора</Link>
+            {config.data?.phone ? (
+              <a href={`tel:${config.data.phone.replace(/[^+\d]/g, '')}`}>
+                <Phone size={14} aria-hidden="true" /> {config.data.phone}
+              </a>
+            ) : (
+              <span>Ежедневно с 09:00 до 21:00</span>
+            )}
+            {config.data?.address ? (
+              <span><MapPin size={14} aria-hidden="true" /> {config.data.address}</span>
+            ) : (
+              <span>Самовывоз и курьерская доставка</span>
+            )}
+            <Link to="/admin/login" className="admin-link">
+              <LockKeyhole size={13} aria-hidden="true" /> Вход для администратора
+            </Link>
           </div>
         </div>
         <div className="container footer-bottom">
-          <span>© {new Date().getFullYear()} ЦветоТишина</span>
-          <span>Спокойный интерфейс. Внимание к деталям.</span>
+          <span>© {new Date().getFullYear()} {config.data?.storeName || 'ЦветоТишина'}</span>
+          <span>Спокойный ритм. Внимание к каждому стеблю.</span>
         </div>
       </footer>
       <CartDrawer />

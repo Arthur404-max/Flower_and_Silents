@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { ArrowLeft, ArrowRight, Check, CreditCard, LoaderCircle, LockKeyhole, MapPin, ShoppingBag, Store, Utensils } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, CreditCard, LoaderCircle, LockKeyhole, Mail, MapPin, ShoppingBag, Store } from 'lucide-react';
 import { formatMoney } from '@cvetotishina/shared';
 import { Link, useNavigate } from 'react-router-dom';
 import { DemoNotice } from '../components/DemoNotice';
@@ -150,19 +150,19 @@ export function CheckoutPage() {
                 </label>
               </div>
               {form.deliveryType === 'DELIVERY' && <FormField label="Адрес доставки" required><input value={form.address} onChange={(event) => updateField('address', event.target.value)} autoComplete="street-address" placeholder="Город, улица, дом, квартира" required maxLength={300} /></FormField>}
-              {form.deliveryType === 'PICKUP' && <p className="form-hint"><Store size={16} aria-hidden="true" /> Адрес самовывоза будет добавлен вместе с контактами магазина.</p>}
+              {form.deliveryType === 'PICKUP' && <p className="form-hint"><Store size={16} aria-hidden="true" /> {config.data?.address ? `Самовывоз: ${config.data.address}` : 'Самовывоз из мастерской ежедневно с 09:00 до 21:00.'}</p>}
             </fieldset>
             <fieldset className="form-section">
               <legend><span>03</span> Детали</legend>
-              <FormField label="Комментарий" hint="Необязательно"><textarea value={form.comment} onChange={(event) => updateField('comment', event.target.value)} placeholder="Пожелания к букету или заказу" rows={4} maxLength={1000} /></FormField>
-              <label className="checkbox-row"><input type="checkbox" checked={form.utensils} onChange={(event) => updateField('utensils', event.target.checked)} /><span><strong>Нужны приборы</strong><small>Отметка будет сохранена в заказе</small></span></label>
+              <FormField label="Комментарий или текст для открытки" hint="Необязательно"><textarea value={form.comment} onChange={(event) => updateField('comment', event.target.value)} placeholder="Пожелания к букету, время вручения или слова для открытки" rows={4} maxLength={1000} /></FormField>
+              <label className="checkbox-row"><input type="checkbox" checked={form.utensils} onChange={(event) => updateField('utensils', event.target.checked)} /><span><strong>Добавить открытку к букету</strong><small>Плотная хлопковая открытка с подписью от руки</small></span></label>
             </fieldset>
-            <DemoNotice compact />
+            <DemoNotice config={config.data} compact />
             {formError && <div className="form-error" role="alert">{formError}</div>}
             <button type="submit" className="button button-primary button-large button-full" disabled={orderMutation.isPending || quote.isFetching || !quote.data}>
               {orderMutation.isPending ? <><LoaderCircle className="spin" size={19} aria-hidden="true" /> Создаём заказ…</> : <>Создать заказ <ArrowRight size={19} aria-hidden="true" /></>}
             </button>
-            <p className="secure-note"><LockKeyhole size={15} aria-hidden="true" /> Повторная отправка использует тот же Idempotency-Key.</p>
+            <p className="secure-note"><LockKeyhole size={15} aria-hidden="true" /> Защита от повторной отправки заказа включена.</p>
           </form>
 
           <aside className="checkout-summary surface-card" aria-label="Состав и стоимость заказа">
@@ -189,7 +189,7 @@ export function CheckoutPage() {
                   <div className="totals-final"><dt>Итого</dt><dd>{formatMoney(quote.data.total)}</dd></div>
                 </dl>
                 <div className="demo-payment-card"><CreditCard size={22} aria-hidden="true" /><div><strong>Оплата заказа</strong><p>Подтверждение оплаты будет доступно на странице созданного заказа.</p></div></div>
-                <ul className="purchase-notes"><li><Check size={16} aria-hidden="true" /> Итог подтверждён</li><li><ShoppingBag size={16} aria-hidden="true" /> Корзина очистится после создания</li><li><Utensils size={16} aria-hidden="true" /> Приборы: {form.utensils ? 'нужны' : 'не нужны'}</li></ul>
+                <ul className="purchase-notes"><li><Check size={16} aria-hidden="true" /> Итог подтверждён</li><li><ShoppingBag size={16} aria-hidden="true" /> Корзина очистится после создания</li><li><Mail size={16} aria-hidden="true" /> Открытка: {form.utensils ? 'добавим к букету' : 'не нужна'}</li></ul>
               </>
             ) : null}
           </aside>

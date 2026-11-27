@@ -1,3 +1,4 @@
+import { formatMoney } from '@cvetotishina/shared';
 import { ArrowRight, Check, CreditCard, Flower2, MapPin, PackageCheck, ShoppingBag, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { DemoNotice } from '../components/DemoNotice';
@@ -21,7 +22,7 @@ const steps = [
     icon: MapPin,
     number: '03',
     title: 'Укажите способ получения',
-    text: 'На оформлении выберите самовывоз или доставку. Для доставки понадобится адрес. Контакты и адрес магазина появятся, когда их добавят в настройки.',
+    text: 'На оформлении выберите самовывоз из мастерской или курьерскую доставку. При желании добавьте подпись для открытки.',
   },
   {
     icon: CreditCard,
@@ -63,9 +64,9 @@ export function HowItWorksPage() {
       </section>
       <section className="section container">
         <div className="delivery-explainer">
-          <div><Store size={28} strokeWidth={1.5} aria-hidden="true" /><h2>Самовывоз</h2><p>Адрес и часы работы не указаны: контакты будут добавлены. До оформления можно проверить состав и стоимость заказа.</p></div>
-          <div><MapPin size={28} strokeWidth={1.5} aria-hidden="true" /><h2>Доставка</h2><p>Тариф и порог бесплатной доставки берутся из настроек магазина.</p></div>
-          <div><Check size={28} strokeWidth={1.5} aria-hidden="true" /><h2>Проверка итога</h2><p>Стоимость букетов, доставки и возможного сервисного сбора показывается после пересчёта.</p></div>
+          <div><Store size={26} strokeWidth={1.5} aria-hidden="true" /><h2>Самовывоз</h2><p>{config.data?.address ? `${config.data.address}. Заказ можно забрать без оплаты доставки.` : 'Заказ можно забрать в мастерской бесплатно, ежедневно с 09:00 до 21:00.'}</p></div>
+          <div><MapPin size={26} strokeWidth={1.5} aria-hidden="true" /><h2>Доставка</h2><p>{config.data ? `Курьерская доставка — ${formatMoney(config.data.deliveryFee)}, бесплатно при заказе от ${formatMoney(config.data.freeDeliveryFrom)}.` : 'Тариф и порог бесплатной доставки рассчитываются автоматически.'}</p></div>
+          <div><Check size={26} strokeWidth={1.5} aria-hidden="true" /><h2>Проверка итога</h2><p>Стоимость букетов и доставки видна заранее — без скрытых доплат при получении.</p></div>
         </div>
         <div className="how-cta"><div><p className="eyebrow">Начните с каталога</p><h2>Какой букет напоминает вам о паузе?</h2></div><Link to="/catalog" className="button button-primary button-large">Выбрать букет <ArrowRight size={18} aria-hidden="true" /></Link></div>
       </section>

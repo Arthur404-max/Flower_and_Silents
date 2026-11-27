@@ -149,6 +149,15 @@ function loadState(): LocalState {
     if (!isLocalState(parsed)) {
       fail(500, 'Локальные данные повреждены. Очистите данные сайта и повторите.', 'invalid-state');
     }
+    const powder = parsed.products.find((item) => item.slug === 'pudrovyy-briz');
+    if (powder && powder.imageUrl === '/images/peonies.jpg') {
+      powder.imageUrl = '/images/powder.jpg';
+      try {
+        localStorage.setItem(STATE_KEY, JSON.stringify(parsed));
+      } catch {
+        // Ignore storage quota issues during non-essential image migration.
+      }
+    }
     fallbackState = parsed;
     return snapshot(parsed);
   } catch (error) {
@@ -1057,8 +1066,8 @@ async function route(path: string, init: RequestInit): Promise<Response> {
     const config: StoreConfig = {
       demoMode: false,
       storeName: 'ЦветоТишина',
-      phone: null,
-      address: null,
+      phone: '+7 (495) 128-40-20',
+      address: 'Москва, ул. Малая Бронная, 18 · 09:00–21:00',
       deliveryFee: DELIVERY_FEE,
       freeDeliveryFrom: FREE_DELIVERY_FROM,
     };

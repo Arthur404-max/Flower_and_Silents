@@ -14,7 +14,7 @@ export function ProductCard({ product }: { product: ProductView }) {
       <Link to={`/product/${product.slug}`} className="product-card-image" aria-label={`Открыть ${product.name}`}>
         <SmartImage src={product.imageUrl} alt={product.name} loading="lazy" />
         {product.badge && <span className="product-badge">{product.badge}</span>}
-        <span className="product-open"><ArrowUpRight size={19} aria-hidden="true" /></span>
+        <span className="product-open" aria-hidden="true"><ArrowUpRight size={17} strokeWidth={1.7} /></span>
       </Link>
       <div className="product-card-body">
         <p className="product-category">{product.category.name}</p>
@@ -32,7 +32,7 @@ export function ProductCard({ product }: { product: ProductView }) {
             onClick={() => addItem(product)}
             aria-label={unavailable ? `${product.name} нет в наличии` : `Добавить ${product.name} в корзину`}
           >
-            <Plus size={20} aria-hidden="true" />
+            <Plus size={18} strokeWidth={1.8} aria-hidden="true" />
           </button>
         </div>
         {unavailable && <p className="stock-note stock-empty">Нет в наличии</p>}
