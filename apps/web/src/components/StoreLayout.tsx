@@ -127,17 +127,17 @@ export function StoreLayout() {
           <div className="footer-contacts">
             <p className="footer-label">Контакты</p>
             {config.data?.phone ? (
-              <a href={`tel:${config.data.phone.replace(/[^+\d]/g, '')}`}>
-                <Phone size={14} aria-hidden="true" /> {config.data.phone}
-              </a>
+              /\d/.test(config.data.phone) ? (
+                <a href={`tel:${config.data.phone.replace(/[^+\d]/g, '')}`}>
+                  <Phone size={14} aria-hidden="true" /> {config.data.phone}
+                </a>
+              ) : (
+                <span><Phone size={14} aria-hidden="true" /> {config.data.phone}</span>
+              )
             ) : (
-              <span>Ежедневно с 09:00 до 21:00</span>
+              <span><Phone size={14} aria-hidden="true" /> (Ваши Данные)</span>
             )}
-            {config.data?.address ? (
-              <span><MapPin size={14} aria-hidden="true" /> {config.data.address}</span>
-            ) : (
-              <span>Самовывоз и курьерская доставка</span>
-            )}
+            <span><MapPin size={14} aria-hidden="true" /> {config.data?.address || '(Ваши Данные)'}</span>
             <Link to="/admin/login" className="admin-link">
               <LockKeyhole size={13} aria-hidden="true" /> Вход для администратора
             </Link>

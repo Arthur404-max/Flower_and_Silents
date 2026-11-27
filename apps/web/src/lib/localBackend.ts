@@ -1066,8 +1066,8 @@ async function route(path: string, init: RequestInit): Promise<Response> {
     const config: StoreConfig = {
       demoMode: false,
       storeName: 'ЦветоТишина',
-      phone: '+7 (495) 128-40-20',
-      address: 'Москва, ул. Малая Бронная, 18 · 09:00–21:00',
+      phone: '(Ваши Данные)',
+      address: '(Ваши Данные)',
       deliveryFee: DELIVERY_FEE,
       freeDeliveryFrom: FREE_DELIVERY_FROM,
     };
